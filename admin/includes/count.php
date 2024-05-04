@@ -13,11 +13,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+define('PAYPAL_SANDBOX', TRUE); //TRUE=Sandbox | FALSE=Production 
+define('PAYPAL_SANDBOX_CLIENT_ID', 'Ac7apTrlxmFcEoJs3UbsDCzXEnp2jiffrkdONqYm3E5DG88lkh19_WYigtx88MrISoHCttt155NqBSoH');
+define('PAYPAL_SANDBOX_CLIENT_SECRET', 'Insert_PayPal_Secret_Key_For_Sandbox_Here');
+define('PAYPAL_PROD_CLIENT_ID', 'Insert_Live_PayPal_Client_ID_Here');
+define('PAYPAL_PROD_CLIENT_SECRET', 'Insert_Live_PayPal_Secret_Key_Here');
+
+$paypalClientId = "Ac7apTrlxmFcEoJs3UbsDCzXEnp2jiffrkdONqYm3E5DG88lkh19_WYigtx88MrISoHCttt155NqBSoH";
 // Fetch total count of patients
 $queryPatients = "SELECT COUNT(*) AS total_patients FROM patient";
 $resultPatients = mysqli_query($conn, $queryPatients);
 $rowPatients = mysqli_fetch_assoc($resultPatients);
 $totalPatients = $rowPatients['total_patients'];
+
+
 
 
 // // Fetch total count of voters
