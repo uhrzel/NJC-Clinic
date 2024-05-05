@@ -24,4 +24,3 @@ if (isset($_POST['editPatientId']) && !empty($_POST['editPatientId'])) {
 
 // Close the database connection
 mysqli_close($conn);
-?>

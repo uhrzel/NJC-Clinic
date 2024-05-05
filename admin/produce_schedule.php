@@ -445,7 +445,7 @@
               title: 'Success',
               text: response,
             }).then((result) => {
-              window.location.href = 'checkout_process.php';
+              location.reload();
             });
             // Optionally, you can redirect the user or perform other actions after successful scheduling
           },
