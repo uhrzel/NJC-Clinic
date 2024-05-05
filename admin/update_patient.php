@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $province = $_POST['editPatientProvince'];
     $city = $_POST['editPatientCity'];
     $postalcode = $_POST['editPatientPostalcode'];
+    $password = md5($_POST['editPatientPassword']);
 
     // SQL update query
     $sql = "UPDATE patient SET 
@@ -34,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             contactnumber = '$contactnumber', 
             province = '$province', 
             city = '$city', 
-            postalcode = '$postalcode' 
+            postalcode = '$postalcode',
+            password = '$password' 
             WHERE patient_id = '$patientId'";
 
     // Execute the query
@@ -47,4 +49,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close the database connection
     mysqli_close($conn);
 }
-?>

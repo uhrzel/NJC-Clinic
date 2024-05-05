@@ -28,10 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $province = mysqli_real_escape_string($conn, $_POST['province']);
     $city = mysqli_real_escape_string($conn, $_POST['city']);
     $postalcode = mysqli_real_escape_string($conn, $_POST['postalcode']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     // Insert patient data into database
-    $sql = "INSERT INTO patient (firstname, lastname, middlename, age, birth, gender, occupation, height, weight, contactnumber, province, city, postalcode) 
-            VALUES ('$firstname', '$lastname', '$middlename', '$age', '$birth', '$gender', '$occupation', '$height', '$weight', '$contactnumber', '$province', '$city', '$postalcode')";
+
+    $md5password = md5($password);
+    $sql = "INSERT INTO patient (firstname, lastname, middlename, age, birth, gender, occupation, height, weight, contactnumber, province, city, postalcode,password) 
+            VALUES ('$firstname', '$lastname', '$middlename', '$age', '$birth', '$gender', '$occupation', '$height', '$weight', '$contactnumber', '$province', '$city', '$postalcode', '$md5password')";
 
     if (mysqli_query($conn, $sql)) {
         echo "success"; // Return success message

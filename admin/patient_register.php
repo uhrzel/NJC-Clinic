@@ -256,6 +256,10 @@
                     <label for="editPatientPostalcode">Postal Code:</label>
                     <input type="text" class="form-control" id="editPatientPostalcode" name="editPatientPostalcode" required>
                   </div>
+                  <div class="form-group">
+                    <label for="editPatientPassword">Password:</label>
+                    <input type="password" class="form-control" id="editPatientPassword" name="editPatientPassword" required>
+                  </div>
                 </div>
               </div>
               <button type="submit" class="btn btn-primary" name="submit">Save Changes</button>
@@ -390,7 +394,7 @@
                           // Action icons (update and delete)
                           echo "<td>";
                           // Edit button
-                          echo "<a href='#' class='editPatient btn-sm btn-info' data-id='" . $row['patient_id'] . "' data-firstname='" . $row['firstname'] . "' data-lastname='" . $row['lastname'] . "'  data-middlename='" . $row['middlename'] . "' data-age='" . $row['age'] . "' data-birth='" . $row['birth'] . "' data-gender='" . $row['gender'] . "' data-occupation='" . $row['occupation'] . "' data-height='" . $row['height'] . "' data-weight='" . $row['weight'] . "' data-contactnumber='" . $row['contactnumber'] . "' data-province='" . $row['province'] . "' data-city='" . $row['city'] . "' data-postalcode='" . $row['postalcode'] . "' data-toggle='modal' data-target='#editPatientModal'><i class='fas fa-edit'></i></a>&nbsp;&nbsp;";
+                          echo "<a href='#' class='editPatient btn-sm btn-info' data-id='" . $row['patient_id'] . "' data-firstname='" . $row['firstname'] . "' data-lastname='" . $row['lastname'] . "'  data-middlename='" . $row['middlename'] . "' data-age='" . $row['age'] . "' data-birth='" . $row['birth'] . "' data-gender='" . $row['gender'] . "' data-occupation='" . $row['occupation'] . "' data-height='" . $row['height'] . "' data-weight='" . $row['weight'] . "' data-contactnumber='" . $row['contactnumber'] . "' data-province='" . $row['province'] . "' data-city='" . $row['city'] . "' data-postalcode='" . $row['postalcode'] . "' data-password='" . $row['password'] . " 'data-toggle='modal' data-target='#editPatientModal'><i class='fas fa-edit'></i></a>&nbsp;&nbsp;";
                           // Delete button
                           echo "<a href='#' class='deletePatient  btn-sm btn-danger' data-id='" . $row['patient_id'] . "' data-toggle='modal' data-target='#deletePatientModal'><i class='fas fa-trash-alt'></i></a>";
                           echo "</td>";
@@ -497,6 +501,10 @@
                         <div class="form-group">
                           <label for="postalcode">Postal Code:</label>
                           <input type="text" class="form-control" id="postalcode" name="postalcode" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="password">Password:</label>
+                          <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                       </div>
                     </div>
@@ -618,6 +626,7 @@
         var patientProvince = button.data('province'); // Extract patient province from data-province attribute
         var patientCity = button.data('city'); // Extract patient city from data-city attribute
         var patientPostalcode = button.data('postalcode'); // Extract patient postal code from data-postalcode attribute
+        var patientPassword = button.data('password'); // Extract patien from password attribute
 
         var modal = $(this);
         modal.find('#editPatientId').val(patientId); // Set the patient ID in the hidden input field
@@ -634,6 +643,7 @@
         modal.find('#editPatientProvince').val(patientProvince); // Set the patient province in the input field
         modal.find('#editPatientCity').val(patientCity); // Set the patient city in the input field
         modal.find('#editPatientPostalcode').val(patientPostalcode); // Set the patient postal code in the input field
+        modal.find('#editPatientPassword').val(patientPassword); // Set the patient postal code in the input field
       });
 
       // Handle edit patient form submission
