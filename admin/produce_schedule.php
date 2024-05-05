@@ -134,6 +134,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="checkout_process.php" class="nav-link ">
+                <i class="nav-icon fas fa-money-check-alt"></i> <!-- Icon for Produce checkout -->
+                <p>
+                  Checkout
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="generate_bill.php" class="nav-link">
                 <i class="nav-icon fas fa-file-invoice-dollar"></i> <!-- Icon for Generate Bill -->
                 <p>
@@ -249,8 +257,8 @@
                 <label for="editPatientPayment">Enter Payment:</label>
                 <input type="text" class="form-control" id="editPatientPayment" name="editPatientPayment" required>
               </div>
-              <div id="paypal-button-container"></div>
-              <input type="hidden" id="paypal-order-id" name="paypal-order-id">
+              <!--  <div id="paypal-button-container"></div>
+              <input type="hidden" id="paypal-order-id" name="paypal-order-id"> -->
 
               <button type="submit" class="btn btn-primary" name="submit">Schedule Appointment</button>
             </form>
@@ -483,8 +491,7 @@
               title: 'Success',
               text: response,
             }).then((result) => {
-              // Reload the page after the success message is closed
-              location.reload();
+              window.location.href = 'checkout_process.php';
             });
             // Optionally, you can redirect the user or perform other actions after successful scheduling
           },
