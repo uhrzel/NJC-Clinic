@@ -153,6 +153,14 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="feedbacks.php" class="nav-link">
+                <i class="nav-icon fas fa-envelope"></i> <!-- Icon for X-Ray -->
+                <p>
+                  Feedbacks
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-engine-alt"></i>
                 <p>
