@@ -209,6 +209,25 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="paymentSuccessModal" tabindex="-1" role="dialog" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentSuccessModalLabel">Payment Success</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Transaction completed successfully.</p>
+                        <p>Thank you for your payment!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
             // Render PayPal button
             paypal.Buttons({
@@ -223,8 +242,10 @@
                     });
                 },
                 onApprove: function(data, actions) {
-
-
+                    return actions.order.capture().then(function(details) {
+                        // Show modal on successful payment
+                        $('#paymentSuccessModal').modal('show');
+                    });
                 }
             }).render('#paypal-button-container');
         </script>

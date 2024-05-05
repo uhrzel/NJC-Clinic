@@ -13,14 +13,14 @@ if (isset($_POST['scheduleId']) && !empty($_POST['scheduleId']) && isset($_POST[
 
     if (mysqli_query($conn, $updateSql)) {
         // If the update was successful, return a success message
-        echo json_encode(array('success' => true, 'message' => 'Schedule updated successfully.'));
+        echo json_encode(array('success' => true, 'message' => 'Payment Done.'));
     } else {
         // If there was an error with the update, return an error message
         echo json_encode(array('success' => false, 'message' => 'Error updating schedule: ' . mysqli_error($conn)));
     }
 } else {
     // If the schedule ID or prescription value is not set or empty, return an error message
-    echo json_encode(array('success' => false, 'message' => 'Invalid schedule ID or prescription value.'));
+    echo json_encode(array('success' => false, 'message' => 'Invalid schedule ID or payment value.'));
 }
 
 // Close the database connection
