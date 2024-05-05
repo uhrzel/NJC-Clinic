@@ -172,14 +172,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="generateBillModalLabel">Prescriptions with Receipt</h5>
+                        <h5 class="modal-title" id="generateBillModalLabel">Checkout with Receipt</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <!-- Content for generating the professional receipt -->
-                        <h4 style="text-align: center;">NJC - Dental Clinic <span id="receiptType"></span> Prescriptions</h4>
+                        <h4 style="text-align: center;">NJC - Dental Clinic <span id="receiptType"></span> Checkout</h4>
                         <hr>
                         <p>Issued to:</p>
                         <p><strong>Patient Name:</strong> <span id="patientName"></span></p>
@@ -195,20 +195,20 @@
                         <div id="paypal-button-container"></div>
                         <input type="hidden" id="paypal-order-id" name="paypal-order-id">
                         <hr>
+                        <input type="hidden" id="scheduleId" name="scheduleId">
                         <p>Thank you for choosing NJC Dental Clinic. We look forward to serving you again.</p>
                     </div>
-                    <!--    <div class="modal-footer">
-                       
+                    <div class="modal-footer">
+
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-             
-                        <button type="button" class="btn btn-primary" id="generateBillButton"> <i class="nav-icon fas fa-money-check-alt"></i> 
-                            Checkout
+
+                        <button type="button" class="btn btn-primary" id="generateBillButton"> <i class="nav-icon fas fa-done"></i>
+                            done
                         </button>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
-
         <script>
             // Render PayPal button
             paypal.Buttons({
@@ -217,39 +217,16 @@
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: $('#receiptAmount').text().replace('₱', '') // Remove peso sign and convert to number
-
+                                value: $('#receiptAmount').text().replace('₱', '')
                             }
                         }]
                     });
                 },
                 onApprove: function(data, actions) {
-                    // Capture the transaction when the user approves the payment
-                    return actions.order.capture().then(function(details) {
 
-                        alert('Transaction completed by ' + details.payer.name.given_name);
-                        printReceipt();
-                    });
+
                 }
             }).render('#paypal-button-container');
-
-            function printReceipt() {
-                // Get the modal content
-                var content = document.getElementById('generateBillModal').innerHTML;
-
-                // Create a new window for printing
-                var printWindow = window.open('', '_blank');
-                printWindow.document.open();
-
-                // Add the modal content to the new window
-                printWindow.document.write('<html><head><title>Receipt</title></head><body>' + content + '</body></html>');
-
-                // Close the document
-                printWindow.document.close();
-
-                // Print the receipt
-                printWindow.print();
-            }
         </script>
 
         <!-- Content Wrapper. Contains page content -->
@@ -272,58 +249,7 @@
                 </div><!-- /.container-fluid -->
             </section>
 
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row"> <!-- Center the row horizontally -->
-                        <!-- Small Box (Stat card) for Make Treatment -->
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-primary">
-                                <div class="inner">
-                                    <h3>Make Treatment</h3>
-                                    <p>Record patient treatments</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-notes-medical"></i> <!-- Icon for Make Treatment -->
-                                </div>
-                                <a href="make_treatment.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
 
-                        <!-- Small Box (Stat card) for Add Patient's Problem -->
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-secondary">
-                                <div class="inner">
-                                    <h3>Add Patient's Problem</h3>
-                                    <p>Add problems to patient records</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-user-md"></i> <!-- Icon for Add Patient's Problem -->
-                                </div>
-                                <a href="add_problem.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-
-                        <!-- Small Box (Stat card) for Check Prescriptions -->
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>Check Prescriptions</h3>
-                                    <p>View patient prescriptions</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-prescription-bottle-alt"></i> <!-- Icon for Check Prescriptions -->
-                                </div>
-                                <a href="check_prescriptions.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
-
-            <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
                     <!-- Schedule Table -->
@@ -331,7 +257,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Prescription List</h3>
+                                    <h3 class="card-title">Checkout List</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -480,27 +406,22 @@
 
         // JavaScript/jQuery code to handle the "Generate Bill" button click event
         $('#generateBillButton').click(function() {
-            // Get the prescription value
-
+            // Get the schedule ID value
             var scheduleId = $('#scheduleId').val();
+
             // Call the function to print bill receipt and update schedule table
             printBillReceiptAndUpdateSchedule(scheduleId);
         });
 
         // Function to print bill receipt and update schedule table
         function printBillReceiptAndUpdateSchedule(scheduleId) {
-            // Debug statements to log scheduleId and prescription
+            // Debug statements to log scheduleId
             console.log("Schedule ID:", scheduleId);
 
             // Clone the modal content to remove any events or listeners
             var modalContent = document.getElementById('generateBillModal');
             var printContents = modalContent.cloneNode(true);
 
-            // Update the prescription value in the printed content
-            var prescriptionElement = printContents.querySelector('#prescriptionTextarea');
-            if (prescriptionElement) {
-                prescriptionElement.textContent = prescription;
-            }
             // Update the schedule ID value in the printed content
             var scheduleIdElement = printContents.querySelector('#scheduleId');
             if (scheduleIdElement) {
@@ -519,7 +440,6 @@
 
             // Print the modified content
             var originalContents = document.body.innerHTML;
-            s
             document.body.innerHTML = printContents.innerHTML;
             window.print();
 
@@ -528,20 +448,42 @@
 
             // Update the schedule table via AJAX
             $.ajax({
-                url: 'update_prescription.php',
-                method: 'POST',
+                url: 'update_billstatus.php', // PHP script to handle database insertion
+                type: 'POST',
                 data: {
                     scheduleId: scheduleId,
-                    prescription: prescription
+                    bill_generate: 'Payment Done'
                 },
+                dataType: 'json', // Expect JSON response
                 success: function(response) {
-                    // Handle the response
-                    console.log(response);
-                    location.reload(); // Reload the page after updating the schedule
+                    // Check if the insertion was successful
+                    if (response.success) {
+                        // Display success message using SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        }).then((result) => {
+                            // Reload the page after the success message is closed
+                            location.reload();
+                        });
+                    } else {
+                        // Display error message if insertion failed
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
                 },
                 error: function(xhr, status, error) {
-                    console.error('Error updating schedule:', error);
-                    location.reload(); // Reload the page even if there's an error
+                    // Display error message if AJAX request fails
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while adding problem.',
+                    });
+                    console.error('An error occurred while adding problem:', error);
                 }
             });
         }

@@ -188,6 +188,7 @@
             <hr>
             <p><strong>Total Amount Paid:</strong> <span id="receiptAmount"></span></p>
             <p><strong>Payment Date:</strong> <span id="receiptDate"></span></p>
+            <p><strong>Status</strong> <span id="bill"></span></p>
             <hr>
             <p><strong>Prescription:</strong></p>
             <textarea class="form-control" id="prescriptionTextarea" name="prescription" rows="3"></textarea>
@@ -311,6 +312,7 @@
                         <th>Time</th>
                         <th>Problem</th>
                         <th>Payment</th>
+                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -321,7 +323,8 @@
                       include 'config/conn.php';
 
                       // Fetch data from the schedule table
-                      $sql = "SELECT * FROM schedule WHERE bill_generate = 'prescription unchecked'";
+                      $sql = "SELECT * FROM schedule WHERE bill_generate IN ('prescription unchecked', 'Payment Done')";
+
                       $result = mysqli_query($conn, $sql);
 
                       // Check if there are any rows returned
@@ -341,6 +344,7 @@
                           echo "<td>" . $row['time'] . "</td>";
                           echo "<td>" . $row['problem'] . "</td>";
                           echo "<td>" . $row['payment'] . "</td>";
+                          echo "<td>" . $row['bill_generate'] . "</td>";
 
                           // Action icons (update and delete)
                           echo "<td>";
@@ -423,13 +427,15 @@
       var patientName = $(this).closest('tr').find('td:nth-child(2)').text();
       var receiptAmount = '₱' + $(this).closest('tr').find('td:nth-child(6)').text(); // Include peso sign
       var receiptDate = $(this).closest('tr').find('td:nth-child(3)').text();
-      var problemData = $(this).closest('tr').find('td:nth-child(5)').text().split(', '); // Assuming problem data is separated by comma
+      var bill = $(this).closest('tr').find('td:nth-child(7)').text();
+      var problemData = $(this).closest('tr').find('td:nth-child(7)').text().split(', '); // Assuming problem data is separated by comma
 
       // Update the modal content with the extracted data
       $('#receiptType').text('Dental Services');
       $('#patientName').text(patientName);
       $('#receiptAmount').text(receiptAmount);
       $('#receiptDate').text(receiptDate);
+      $('#bill').text(bill);
 
       // Clear any existing problem list items
       $('#problemList').empty();

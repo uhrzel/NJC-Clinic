@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if insertion was successful
     if (mysqli_query($conn, $sql)) {
         echo "Appointment scheduled successfully.";
-        echo "Please poceed to checkout.";
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
