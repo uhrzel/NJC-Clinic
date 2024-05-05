@@ -178,37 +178,23 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Content for generating the professional receipt -->
-                        <h4 style="text-align: center;">NJC - Dental Clinic <span id="receiptType"></span> Checkout</h4>
-                        <hr>
-                        <p>Issued to:</p>
+                        <h5 style="text-align: center; font-size: 1.25rem;">NJC - Dental Clinic <span id="receiptType"></span> Checkout</h5>
                         <p><strong>Patient Name:</strong> <span id="patientName"></span></p>
-                        <p>Services Rendered:</p>
-                        <ul id="problemList">
-                            <!-- List items will be dynamically added here -->
-                        </ul>
-                        <hr>
+                        <ul id="problemList"></ul>
                         <p><strong>Total Amount Paid:</strong> <span id="receiptAmount"></span></p>
                         <p><strong>Payment Date:</strong> <span id="receiptDate"></span></p>
-                        <hr>
-                        <!-- PayPal Button Container -->
                         <div id="paypal-button-container"></div>
                         <input type="hidden" id="paypal-order-id" name="paypal-order-id">
-                        <hr>
                         <input type="hidden" id="scheduleId" name="scheduleId">
-                        <p>Thank you for choosing NJC Dental Clinic. We look forward to serving you again.</p>
                     </div>
                     <div class="modal-footer">
-
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                        <button type="button" class="btn btn-primary" id="generateBillButton"> <i class="nav-icon fas fa-done"></i>
-                            done
-                        </button>
+                        <button type="button" class="btn btn-primary" id="generateBillButton"> <i class="nav-icon fas fa-done"></i> done</button>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="paymentSuccessModal" tabindex="-1" role="dialog" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
