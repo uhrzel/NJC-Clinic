@@ -44,7 +44,7 @@
 
         <form action="login.php" method="post">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="name" name="username">
+            <input type="text" class="form-control" placeholder="name" name="username" id="username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Password" name="password">
+            <input type="password" class="form-control" placeholder="Password" name="password" id="password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -62,9 +62,9 @@
           <div class="row">
             <div class="col-8">
               <div class="icheck-primary">
-                <input type="checkbox" id="remember">
-                <label for="remember">
-                  Remember Me
+                <input type="checkbox" id="patientCheckbox">
+                <label for="patientCheckbox">
+                  Patient?
                 </label>
               </div>
             </div>
@@ -87,6 +87,18 @@
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
   <script src="dist/js/adminlte.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#patientCheckbox').change(function() {
+        if ($(this).is(':checked')) {
+          $('#username').attr('placeholder', 'Contact number');
+        } else {
+          $('#username').attr('placeholder', 'name');
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

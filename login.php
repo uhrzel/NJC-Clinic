@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // // Prepare and execute SQL query to fetch admin data
+    // Prepare and execute SQL query to fetch admin data
     $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -74,10 +74,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
         } else {
-            // Username not found, redirect back to login page
-            $_SESSION['login_error'] = 'Invalid username or password';
-            header('Location: index1.php');
-            exit();
+            // Prepare and execute SQL query to fetch patient data
+            $stmt = $conn->prepare("SELECT * FROM patient WHERE contactnumber = ?");
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            // Check if a row is returned
+            if ($result->num_rows == 1) {
+                // Fetch the row
+                $row = $result->fetch_assoc();
+                // Verify password
+                if (md5($password, $row['password'])) {
+                    // Patient login successful, create session
+                    $_SESSION['patient_id'] = $row['patient_id'];
+                    $_SESSION['username'] = $row['firstname'] . ' ' . $row['lastname'];
+                    header('Location: feedback.php'); // Redirect to patient dashboard
+                    exit();
+                } else {
+                    // Invalid password, redirect back to login page
+                    $_SESSION['login_error'] = 'Invalid contact number or password';
+                    header('Location: index.php');
+                    exit();
+                }
+            } else {
+                // Username not found, redirect back to login page
+                $_SESSION['login_error'] = 'Invalid username or password';
+                header('Location: index.php');
+                exit();
+            }
         }
     }
 }
