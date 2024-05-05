@@ -133,14 +133,7 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="checkout_process.php" class="nav-link ">
-                <i class="nav-icon fas fa-money-check-alt"></i> <!-- Icon for Produce checkout -->
-                <p>
-                  Checkout
-                </p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="generate_bill.php" class="nav-link">
                 <i class="nav-icon fas fa-file-invoice-dollar"></i> <!-- Icon for Generate Bill -->
@@ -189,7 +182,7 @@
 
 
     <!-- Include PayPal JavaScript SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypalClientId; ?>&currency=PHP"></script>
+
     <div class="modal fade" id="editPatientModal" tabindex="-1" role="dialog" aria-labelledby="editPatientModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-s" role="document">
         <div class="modal-content">
@@ -257,8 +250,7 @@
                 <label for="editPatientPayment">Enter Payment:</label>
                 <input type="text" class="form-control" id="editPatientPayment" name="editPatientPayment" required>
               </div>
-              <!--  <div id="paypal-button-container"></div>
-              <input type="hidden" id="paypal-order-id" name="paypal-order-id"> -->
+
 
               <button type="submit" class="btn btn-primary" name="submit">Schedule Appointment</button>
             </form>
@@ -266,45 +258,7 @@
         </div>
       </div>
     </div>
-    <script>
-      var paypalButtonRendered = false;
 
-      // Function to render PayPal button with dynamic amount
-      function renderPayPalButton(amount) {
-        if (!paypalButtonRendered) {
-          paypal.Buttons({
-            createOrder: function(data, actions) {
-              // This function sets up the details of the transaction, including the amount and line item details
-              return actions.order.create({
-                purchase_units: [{
-                  amount: {
-                    value: amount,
-                    currency: 'PHP' // Specify currency as PHP
-                  }
-                }]
-              });
-            },
-            onApprove: function(data, actions) {
-              // This function captures the funds from the transaction
-              return actions.order.capture().then(function(details) {
-                // Send the PayPal Order ID to your server for further processing
-                document.getElementById('paypal-order-id').value = data.orderID;
-                // Submit the form
-                document.getElementById('editPatientForm').submit();
-              });
-            }
-          }).render('#paypal-button-container');
-
-          paypalButtonRendered = true;
-        }
-      }
-
-      // Listen for changes in the payment input field
-      document.getElementById('editPatientPayment').addEventListener('input', function() {
-        var paymentAmount = (parseFloat(this.value) * 100).toFixed(0); // Convert to cents and round to nearest integer
-        renderPayPalButton(paymentAmount);
-      });
-    </script>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
