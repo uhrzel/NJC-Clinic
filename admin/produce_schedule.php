@@ -286,6 +286,59 @@
           </div>
         </div><!-- /.container-fluid -->
       </section>
+
+
+      <section class="content">
+        <div class="container-fluid">
+          <!-- Patients Table -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Available Schedule</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" id="calendar"></div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </section>
+
+
+      <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+      <!-- Bootstrap CSS (optional, if you're using Bootstrap) -->
+      <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet' />
+
+      <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var calendarEl = document.getElementById('calendar');
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // Display month view initially
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: {
+              url: 'get_available_dates.php', // PHP file to fetch available schedule dates
+              method: 'POST',
+              extraParams: {
+                custom_param: 'something'
+              },
+              failure: function() {
+                alert('Failed to fetch schedule dates!');
+              }
+            }
+          });
+          calendar.render();
+        });
+      </script>
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
@@ -408,6 +461,7 @@
       });
     });
   </script>
+
   <script>
     $(document).ready(function() {
       // Edit Patient Modal
@@ -447,15 +501,14 @@
           type: 'POST',
           data: formData,
           success: function(response) {
-            // Display success message
+            // Display success or error message using SweetAlert
             Swal.fire({
-              icon: 'success',
-              title: 'Success',
+              icon: response.includes("successfully") ? 'success' : 'error',
+              title: response.includes("successfully") ? 'Success' : 'Error',
               text: response,
             }).then((result) => {
-              location.reload();
+              location.reload(); // Reload the page after successful scheduling
             });
-            // Optionally, you can redirect the user or perform other actions after successful scheduling
           },
           error: function(xhr, status, error) {
             // Display error message
@@ -468,6 +521,7 @@
             // Optionally, you can display an error message to the user
           }
         });
+
       });
     });
   </script>
