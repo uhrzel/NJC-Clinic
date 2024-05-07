@@ -142,14 +142,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="xray.php" class="nav-link">
-                                <i class="nav-icon fas fa-x-ray"></i> <!-- Icon for X-Ray -->
-                                <p>
-                                    X-Ray
-                                </p>
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a href="feedbacks.php" class="nav-link active">
                                 <i class="nav-icon fas fa-envelope"></i> <!-- Icon for X-Ray -->

@@ -142,14 +142,7 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="xray.php" class="nav-link">
-                <i class="nav-icon fas fa-x-ray"></i> <!-- Icon for X-Ray -->
-                <p>
-                  X-Ray
-                </p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="feedbacks.php" class="nav-link">
                 <i class="nav-icon fas fa-envelope"></i> <!-- Icon for X-Ray -->
@@ -292,7 +285,7 @@
         <div class="container-fluid">
           <!-- Patients Table -->
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Available Schedule</h3>

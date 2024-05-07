@@ -21,29 +21,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $postalcode = $_POST['editPatientPostalcode'];
     $password = md5($_POST['editPatientPassword']);
 
-    // SQL update query
-    $sql = "UPDATE patient SET 
-            firstname = '$firstname', 
-            lastname = '$lastname', 
-            middlename = '$middlename', 
-            age = '$age', 
-            birth = '$birth', 
-            gender = '$gender', 
-            occupation = '$occupation', 
-            height = '$height', 
-            weight = '$weight', 
-            contactnumber = '$contactnumber', 
-            province = '$province', 
-            city = '$city', 
-            postalcode = '$postalcode',
-            password = '$password' 
-            WHERE patient_id = '$patientId'";
+    // Validate contact number
+    if (preg_match("/^09[0-9]{9}$/", $contactnumber)) {
+        $file_name = $_FILES['editfileUpload']['name'];
+        $file_tmp = $_FILES['editfileUpload']['tmp_name'];
 
-    // Execute the query
-    if (mysqli_query($conn, $sql)) {
-        echo "Patient record updated successfully";
+        // Move uploaded file to desired location
+        $target_dir = "uploads/"; // Specify the directory where you want to store the uploaded files
+        $target_file = $target_dir . basename($file_name);
+        move_uploaded_file($file_tmp, $target_file);
+
+        // SQL update query
+        $sql = "UPDATE patient SET 
+                firstname = '$firstname', 
+                lastname = '$lastname', 
+                middlename = '$middlename', 
+                age = '$age',
+                file_path = '$target_file',
+                birth = '$birth', 
+                gender = '$gender', 
+                occupation = '$occupation', 
+                height = '$height', 
+                weight = '$weight', 
+                contactnumber = '$contactnumber', 
+                province = '$province', 
+                city = '$city', 
+                postalcode = '$postalcode',
+                password = '$password' 
+                WHERE patient_id = '$patientId'";
+
+        // Execute the query
+        if (mysqli_query($conn, $sql)) {
+            echo "success"; // Return success message
+        } else {
+            echo mysqli_error($conn); // Return error message
+        }
     } else {
-        echo "Error updating patient record: " . mysqli_error($conn);
+        echo "Error: Contact number should start with '09' and be 11 digits long."; // Return error message for invalid contact number
     }
 
     // Close the database connection

@@ -144,14 +144,7 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="xray.php" class="nav-link">
-                <i class="nav-icon fas fa-x-ray"></i> <!-- Icon for X-Ray -->
-                <p>
-                  X-Ray
-                </p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="feedbacks.php" class="nav-link">
                 <i class="nav-icon fas fa-envelope"></i> <!-- Icon for X-Ray -->
@@ -221,6 +214,12 @@
                     <label for="editPatientAge">Age:</label>
                     <input type="number" class="form-control" id="editPatientAge" name="editPatientAge" required>
                   </div>
+                  <div class="form-group" id="editfileUploadGroup" style="display: none;">
+                    <label for="editfileUpload">Proof of Guidance:</label>
+                    <input type="file" class="form-control-file" id="editfileUpload" name="editfileUpload" required>
+                  </div>
+
+
                   <div class="form-group">
                     <label for="editPatientBirth">Date of Birth:</label>
                     <input type="date" class="form-control" id="editPatientBirth" name="editPatientBirth" required>
@@ -276,6 +275,27 @@
         </div>
       </div>
     </div>
+
+    <script>
+      // Function to toggle file upload field based on age
+      function toggleFileUpload() {
+        var ageInput = document.getElementById('editPatientAge');
+        var fileUploadGroup = document.getElementById('editfileUploadGroup');
+
+        // Get the value of age input
+        var age = parseInt(ageInput.value);
+
+        // If age is 18 or above, show the file upload field, otherwise hide it
+        if (age <= 18) {
+          fileUploadGroup.style.display = 'block';
+        } else {
+          fileUploadGroup.style.display = 'none';
+        }
+      }
+
+      // Listen for changes in the age input field
+      document.getElementById('editPatientAge').addEventListener('input', toggleFileUpload);
+    </script>
     <!-- Delete Patient Modal -->
     <div class="modal fade" id="deletePatientModal" tabindex="-1" role="dialog" aria-labelledby="deletePatientModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -467,6 +487,10 @@
                           <label for="age">Age:</label>
                           <input type="number" class="form-control" id="age" name="age" required>
                         </div>
+                        <div class="form-group" id="fileUploadGroup" style="display: none;">
+                          <label for="fileUpload">Proof of Guidance:</label>
+                          <input type="file" class="form-control-file" id="fileUpload" name="fileUpload" required>
+                        </div>
                         <div class="form-group">
                           <label for="birth">Date of Birth:</label>
                           <input type="date" class="form-control" id="birth" name="birth" required>
@@ -529,6 +553,27 @@
 
     </div>
     <!-- /.content-wrapper -->
+    <script>
+      // Function to toggle file upload field based on age
+      function toggleFileUpload() {
+        var ageInput = document.getElementById('age');
+        var fileUploadGroup = document.getElementById('fileUploadGroup');
+
+        // Get the value of age input
+        var age = parseInt(ageInput.value);
+
+        // If age is 18 or above, show the file upload field, otherwise hide it
+        if (age <= 18) {
+          fileUploadGroup.style.display = 'block';
+        } else {
+          fileUploadGroup.style.display = 'none';
+        }
+      }
+
+      // Listen for changes in the age input field
+      document.getElementById('age').addEventListener('input', toggleFileUpload);
+    </script>
+
 
     <?php include 'includes/footer.php'; ?>
 
@@ -654,18 +699,42 @@
         modal.find('#editPatientPassword').val(patientPassword); // Set the patient postal code in the input field
       });
 
-      // Handle edit patient form submission
       $('#editPatientForm').submit(function(e) {
         e.preventDefault(); // Prevent form submission
-        var formData = $(this).serialize(); // Serialize form data
+        var formData = new FormData(this); // Create FormData object
         // Perform update operation using AJAX
         $.ajax({
           url: 'update_patient.php',
           type: 'POST',
           data: formData,
+          processData: false, // Prevent jQuery from automatically processing the FormData object
+          contentType: false, // Prevent jQuery from setting contentType
           success: function(response) {
-            // Refresh the page after successful update
-            location.reload();
+            if (response === "success") {
+              // Show success message using SweetAlert
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Patient record updated successfully'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $('#editPatientModal').modal('hide'); // Hide the Bootstrap modal
+                  location.reload(); // Refresh the page
+                }
+              });
+            } else {
+              // Show error message using SweetAlert
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: response
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $('#editPatientModal').modal('hide'); // Hide the Bootstrap modal
+                  location.reload(); // Refresh the page
+                }
+              });
+            }
           },
           error: function(xhr, status, error) {
             console.error('An error occurred while updating patient:', error);
