@@ -120,20 +120,20 @@
             </li>
             <li class="nav-item">
               <a href="patient_register.php" class="nav-link">
-                <i class="nav-icon fas fa-clipboard-list"></i> <!-- Icon for Patient's Register -->
+                <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>
                   Patient's Register
                 </p>
               </a>
             </li>
-            <li class="nav-item">
+            <!--      <li class="nav-item">
               <a href="produce_schedule.php" class="nav-link">
-                <i class="nav-icon fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
+                <i class="nav-icon fas fa-calendar-alt"></i> 
                 <p>
                   Produce Schedule
                 </p>
               </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
               <a href="generate_bill.php" class="nav-link">

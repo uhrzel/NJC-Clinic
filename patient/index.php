@@ -160,6 +160,24 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="appointments.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                                <i class="nav-icon fas fa-list-alt"></i> <!-- Changed Icon for Appointment List -->
+                                <p>
+                                    Appointment List
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="debts.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                                <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
+                                <p>
+                                    Debt
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-engine-alt"></i>
                                 <p>
@@ -174,12 +192,12 @@
                                         <p>Logout</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!--  <li class="nav-item">
                                     <a href="change_password.php" class="nav-link">
                                         <i class="nav-icon fas fa-key"></i>
                                         <p>Change Password</p>
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                     </ul>
@@ -274,31 +292,45 @@
                                 <a href="schedule.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-
+                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>Appointments</h3>
+                                    <p>Appointment List </p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fas fa-list-alt"></i>
+                                </div>
+                                <a href="appointments.php?patient_id=<?php echo $patient_id; ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
                         <!-- Small Box (Stat card) for Generate Bill -->
                         <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>Generate Bill</h3>
-                                    <p>Generate billing information</p>
+                                    <h3>Debt Bill</h3>
+                                    <p>Debt Bill information</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-file-invoice-dollar"></i> <!-- Icon for Generate Bill -->
                                 </div>
-                                <a href="generate_bill.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="debts.php?patient_id=<?php echo $patient_id; ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
+
                     </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <!-- Schedule Table -->
-                    <div class="row">
-                        <!--    <div class="col-md-12">
+
+                </div>
+                <!-- /.row -->
+        </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Schedule Table -->
+                <div class="row">
+                    <!--    <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Transaction List</h3>
@@ -311,22 +343,22 @@
                             </div>
                            
                         </div> -->
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
 
-        <?php include 'includes/footer.php'; ?>
+    <?php include 'includes/footer.php'; ?>
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 

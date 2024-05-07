@@ -125,14 +125,7 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="checkout_process.php" class="nav-link ">
-                <i class="nav-icon fas fa-money-check-alt"></i> <!-- Icon for Produce checkout -->
-                <p>
-                  Checkout
-                </p>
-              </a>
-            </li>
+
             <li class="nav-item">
               <a href="check_prescriptions.php" class="nav-link">
                 <i class="nav-icon fas fa-prescription-bottle-alt"></i> <!-- Icon for Check Prescriptions -->

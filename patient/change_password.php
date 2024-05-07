@@ -157,10 +157,27 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="appointments.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                <i class="nav-icon fas fa-list-alt"></i> <!-- Changed Icon for Appointment List -->
+                <p>
+                  Appointment List
+                </p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="debts.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
+                <p>
+                  Debt
+                </p>
+              </a>
+            </li>
 
 
             <li class="nav-item">
-              <a href="#" class="nav-link active">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-engine-alt"></i>
                 <p>
                   Settings

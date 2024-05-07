@@ -151,7 +151,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="schedule.php" class="nav-link active">
+                            <a href="schedule.php" class="nav-link">
                                 <i class="nav-icon fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
                                 <p>
                                     Schedule
@@ -159,7 +159,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="appointments.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                            <a href="appointment.php?patient_id=<?php echo $patient_id; ?>" class="nav-link active">
                                 <i class="nav-icon fas fa-list-alt"></i> <!-- Changed Icon for Appointment List -->
                                 <p>
                                     Appointment List
@@ -206,69 +206,6 @@
             <!-- /.sidebar -->
         </aside>
 
-        <div class="modal fade" id="editPatientModal" tabindex="-1" role="dialog" aria-labelledby="editPatientModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-s" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editPatientModalLabel">Schedule Appointment</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Form for scheduling appointment -->
-
-                        <form id="editPatientForm">
-                            <input type="hidden" id="editPatientId" name="editPatientId" value="<?php echo $patient_id; ?>">
-                            <input type="hidden" id="editPatientDate" name="editPatientDate">
-
-                            <div class="form-group">
-                                <label for="editPatientTime">Time:</label>
-                                <select class="form-control" id="editPatientTime" name="editPatientTime" required>
-                                    <option value="">Select Time</option>
-                                    <option value="08:00">08:00 AM</option>
-                                    <option value="09:00">09:00 AM</option>
-                                    <option value="10:00">10:00 AM</option>
-                                    <option value="11:00">11:00 AM</option>
-                                    <option value="12:00">12:00 PM</option>
-                                    <option value="13:00">01:00 PM</option>
-                                    <option value="14:00">02:00 PM</option>
-                                    <option value="15:00">03:00 PM</option>
-                                    <option value="16:00">04:00 PM</option>
-                                    <option value="17:00">05:00 PM</option>
-                                    <option value="18:00">06:00 PM</option>
-                                    <option value="19:00">07:00 PM</option>
-                                    <option value="20:00">08:00 PM</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="editPatientProblem">Problem:</label>
-                                <select class="form-control" id="editPatientProblem" name="editPatientProblem" required>
-                                    <option value="">Select Problem</option>
-                                    <option value="Teeth Cleaning">Teeth Cleaning</option>
-                                    <option value="Whitening">Whitening</option>
-                                    <option value="Extractions">Extractions</option>
-                                    <option value="Veneers">Veneers</option>
-                                    <option value="Filling">Filling</option>
-                                    <option value="Crowns">Crowns</option>
-                                    <option value="Root Canal">Root Canal</option>
-                                    <option value="Brace/Invisalign">Brace/Invisalign</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="editPatientPayment">Enter Payment:</label>
-                                <input type="text" class="form-control" id="editPatientPayment" name="editPatientPayment" required>
-                            </div>
-
-
-                            <button type="submit" class="btn btn-primary" name="submit">Schedule Appointment</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -278,107 +215,100 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1> Schedule</h1>
+                            <h1> Appointment</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active"> Schedule</li>
+                                <li class="breadcrumb-item active"> Appointment</li>
                             </ol>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
-
-
             <section class="content">
                 <div class="container-fluid">
-                    <!-- Patients Table -->
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Available Schedule</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body" id="calendar"></div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </section>
 
-
-
-            <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
-            <!-- Bootstrap CSS (optional, if you're using Bootstrap) -->
-            <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet' />
-
-            <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    var calendarEl = document.getElementById('calendar');
-                    var calendar = new FullCalendar.Calendar(calendarEl, {
-                        initialView: 'dayGridMonth', // Display month view initially
-                        headerToolbar: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                        },
-                        events: {
-                            url: 'get_available_dates.php', // PHP file to fetch available schedule dates
-                            method: 'POST',
-                            extraParams: {
-                                custom_param: 'something'
-                            },
-                            failure: function() {
-                                alert('Failed to fetch schedule dates!');
-                            }
-                        },
-                        // Handle date click event
-                        dateClick: function(info) {
-                            // Show the modal when a date is clicked
-                            $('#editPatientModal').modal('show');
-
-                            // Populate the date field with the clicked date
-                            $('#editPatientDate').val(info.dateStr);
-                        }
-                    });
-                    calendar.render();
-                });
-            </script>
-            <!--     <section class="content">
-                <div class="container-fluid">
-           
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Patients List</h3>
+                                    <h3 class="card-title">Appointment List</h3>
                                 </div>
-                     
+
                                 <div class="card-body">
                                     <table id="patientsTable" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+
                                                 <th>Name</th>
                                                 <th>Age</th>
                                                 <th>Birth</th>
                                                 <th>Gender</th>
                                                 <th>Contact</th>
-                                                <th>Postal Code</th>
-                                                <th>Action</th>
+                                                <th>Bill generate</th>
+                                                <th>Problem</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                            
-                                           
+
+                                            <?php
+                                            // Include your database connection
+                                            include 'config/conn.php';
+
+                                            // Check if the patient ID is set in the URL
+                                            if (isset($_GET['patient_id'])) {
+                                                // Sanitize the patient ID input
+                                                $patientId = mysqli_real_escape_string($conn, $_GET['patient_id']);
+
+                                                // SQL query to retrieve data for the specific patient
+                                                $sql = "SELECT 
+                s.id AS schedule_id,
+                p.patient_id,
+                CONCAT(p.firstname, ' ', p.lastname) AS name,
+                p.age,
+                p.birth,
+                p.gender,
+                p.contactnumber,
+                s.bill_generate,
+                s.problem
+            FROM 
+                schedule s
+            JOIN 
+                patient p ON s.patient_id = p.patient_id
+            WHERE 
+                p.patient_id = $patientId";
+
+                                                // Execute the query
+                                                $result = mysqli_query($conn, $sql);
+
+                                                // Check if there are any results
+                                                if (mysqli_num_rows($result) > 0) {
+                                                    // Output data of each row
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                        echo "<tr>";
+
+                                                        echo "<td>" . $row["name"] . "</td>";
+                                                        echo "<td>" . $row["age"] . "</td>";
+                                                        echo "<td>" . $row["birth"] . "</td>";
+                                                        echo "<td>" . $row["gender"] . "</td>";
+                                                        echo "<td>" . $row["contactnumber"] . "</td>";
+                                                        echo "<td>" . $row["bill_generate"] . "</td>";
+                                                        echo "<td>" . $row["problem"] . "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                } else {
+                                                    echo "<tr><td colspan='8'>No data found for this patient</td></tr>";
+                                                }
+
+                                                // Close the connection
+                                                mysqli_close($conn);
+                                            } else {
+                                                echo "<tr><td colspan='8'>Patient ID not provided</td></tr>";
+                                            }
+                                            ?>
+
                                         </tbody>
 
                                     </table>
@@ -391,7 +321,7 @@
                     </div>
 
                 </div>
-            </section> -->
+            </section>
 
 
 

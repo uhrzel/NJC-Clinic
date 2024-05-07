@@ -125,14 +125,14 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
+            <!--   <li class="nav-item">
               <a href="produce_schedule.php" class="nav-link">
-                <i class="nav-icon fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
+                <i class="nav-icon fas fa-calendar-alt"></i>
                 <p>
                   Produce Schedule
                 </p>
               </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
               <a href="generate_bill.php" class="nav-link">
@@ -266,19 +266,19 @@
             </div>
 
             <!-- Small Box (Stat card) for Produce Schedule -->
-            <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
+            <!--     <div class="col-lg-4 col-md-6"> 
               <div class="small-box bg-success">
                 <div class="inner">
                   <h3>Produce Schedule</h3>
                   <p>Schedule appointments</p>
                 </div>
                 <div class="icon">
-                  <i class="fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
+                  <i class="fas fa-calendar-alt"></i> 
                 </div>
                 <a href="produce_schedule.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-
+ -->
             <!-- Small Box (Stat card) for Generate Bill -->
             <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
               <div class="small-box bg-warning">

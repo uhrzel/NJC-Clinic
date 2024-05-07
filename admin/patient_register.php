@@ -127,14 +127,14 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
+            <!--     <li class="nav-item">
               <a href="produce_schedule.php" class="nav-link">
-                <i class="nav-icon fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
+                <i class="nav-icon fas fa-calendar-alt"></i> <
                 <p>
                   Produce Schedule
                 </p>
               </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
               <a href="generate_bill.php" class="nav-link">
