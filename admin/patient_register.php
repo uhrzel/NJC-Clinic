@@ -487,9 +487,9 @@
                           <label for="age">Age:</label>
                           <input type="number" class="form-control" id="age" name="age" required>
                         </div>
-                        <div class="form-group" id="fileUploadGroup" style="display: none;">
+                        <div class="form-group" id="fileUploadGroup">
                           <label for="fileUpload">Proof of Guidance:</label>
-                          <input type="file" class="form-control-file" id="fileUpload" name="fileUpload" required>
+                          <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
                         </div>
                         <div class="form-group">
                           <label for="birth">Date of Birth:</label>

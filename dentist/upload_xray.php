@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if a file is selected
     if (isset($_FILES["xrayImage"]) && $_FILES["xrayImage"]["error"] == 0) {
-        $allowed_types = array('jpg', 'jpeg', 'png', 'gif');
+        $allowed_types = array('jpg', 'jpeg', 'png', 'gif', 'jfif');
         $file_extension = strtolower(pathinfo($_FILES["xrayImage"]["name"], PATHINFO_EXTENSION));
 
         // Check if the file type is allowed
