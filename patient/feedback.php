@@ -1,6 +1,5 @@
 <?php include 'includes/count.php'; ?>
 <?php include "config/session.php" ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +29,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: url(./dist/img/office.jpg);
+            background-image: url(../admin/office.jpg);
             background-size: cover;
             background-position: center;
             filter: blur(2.5px);
@@ -45,6 +44,86 @@
         .content {
             background-color: transparent;
             padding: 20px;
+        }
+
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+
+        .rating>input {
+            display: none;
+        }
+
+        .rating>label {
+            padding: 5px;
+            font-size: 30px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .rating>input:checked~label,
+        .rating>input:checked~label~label {
+            color: #f8d053;
+        }
+
+        body {
+            background-image: url('dist/img/care.jpg');
+            /* Specify the path to your background image */
+            background-size: cover;
+            /* Cover the entire viewport */
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            /* Transparent white background */
+            border: none;
+            /* No border */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Soft shadow */
+            border-radius: 15px;
+            /* Rounded corners */
+        }
+
+        .card-header {
+            background-color: lightblue;
+            /* Yellow background */
+            border-bottom: none;
+            /* No border at the bottom */
+            border-radius: 15px 15px 0 0;
+            /* Rounded corners only at the top */
+            font-weight: bold;
+            color: #333;
+            /* Dark text color */
+        }
+
+        .form-control {
+            border: none;
+            /* No border for form controls */
+            border-radius: 10px;
+            /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Soft shadow */
+        }
+
+        .btn-primary {
+
+            /* Yellow background */
+            border: none;
+            /* No border */
+            border-radius: 10px;
+            /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Soft shadow */
+        }
+
+        .btn-primary:hover {
+            background-color: lightskyblue;
+            /* Lighter yellow on hover */
         }
     </style>
 </head>
@@ -83,8 +162,6 @@
                 <span class="brand-text font-weight-light">NJC - Dental Clinic</span>
             </a>
             <?php
-
-
             // Include your database connection
             include 'config/conn.php';
 
@@ -121,10 +198,8 @@
                 echo 'Patient ID not set';
             }
             ?>
-
             <!-- Sidebar -->
             <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
 
                 <!-- SidebarSearch Form -->
                 <div class="form-inline">
@@ -143,7 +218,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="index.php" class="nav-link active">
+                            <a href="index.php" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>
                                     Dashboard
@@ -155,7 +230,7 @@
                             <a href="schedule.php" class="nav-link">
                                 <i class="nav-icon fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
                                 <p>
-                                    Schedules
+                                    Schedule
                                 </p>
                             </a>
                         </li>
@@ -169,7 +244,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="debts.php" class="nav-link">
+                            <a href="debts.php" class="nav-link ">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Debt
@@ -177,14 +252,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="feedback.php" class="nav-link">
+                            <a href="feedback.php" class="nav-link active">
                                 <i class="nav-icon fas fa-envelope"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Feedbacks
                                 </p>
                             </a>
                         </li>
-
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -201,8 +275,8 @@
                                         <p>Logout</p>
                                     </a>
                                 </li>
-                                <!--  <li class="nav-item">
-                                    <a href="change_password.php" class="nav-link">
+                                <!-- <li class="nav-item">
+                                    <a href="change_password.php" class="nav-link active">
                                         <i class="nav-icon fas fa-key"></i>
                                         <p>Change Password</p>
                                     </a>
@@ -215,53 +289,9 @@
             </div>
             <!-- /.sidebar -->
         </aside>
-        <div class="modal fade" id="generateBillModal" tabindex="-1" role="dialog" aria-labelledby="generateBillModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="generateBillModalLabel">Generate Bill Receipt</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Content for generating the professional receipt -->
-                        <h4 style="text-align: center;">NJC - Dental Clinic <span id="receiptType"></span> Receipt</h4>
-                        <hr>
-                        <p>Issued to:</p>
-                        <p><strong>Patient Name:</strong> <span id="patientName"></span></p>
-                        <p>Services Rendered:</p>
-                        <ul id="problemList">
-                            <!-- List items will be dynamically added here -->
-                        </ul>
-                        <hr>
-                        <p><strong>Total Amount Paid:</strong><span id="receiptAmount"></span></p>
-                        <p><strong>Payment Date:</strong> <span id="receiptDate"></span></p>
-                        <hr>
-                        <p>Thank you for choosing NJC Dental Clinic. We look forward to serving you again.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- Button to close the modal -->
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <!-- Button to submit or generate the bill receipt -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <style>
-            #problemList {
-                list-style-type: none;
-                /* Remove bullet points */
-                padding: 0;
-                /* Remove default padding */
-            }
 
-            #problemList li {
-                margin-bottom: 5px;
-                margin-left: 50px;
-                /* Optional: Add some spacing between list items */
-            }
-        </style>
+
+
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -270,106 +300,118 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Dashboard</h1>
+                            <h1>Feedbacks </h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item active">Feedbacks </li>
                             </ol>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
 
-            <!-- Main content -->
+
             <section class="content">
-                <div class="container-fluid">
-                    <div class="row"> <!-- Center the row horizontally -->
-                        <!-- Small Box (Stat card) for Patient's Register -->
-
-                        <!-- Small Box (Stat card) for Produce Schedule -->
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>Produce Schedule</h3>
-                                    <p>Schedule appointments</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
-                                </div>
-                                <a href="schedule.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>Appointments</h3>
-                                    <p>Appointment List </p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-list-alt"></i>
-                                </div>
-                                <a href="appointments.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- Small Box (Stat card) for Generate Bill -->
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-warning">
-                                <div class="inner">
-                                    <h3>Debt Bill</h3>
-                                    <p>Debt Bill information</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-file-invoice-dollar"></i> <!-- Icon for Generate Bill -->
-                                </div>
-                                <a href="debts.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <!-- Schedule Table -->
-                <div class="row">
-                    <!--    <div class="col-md-12">
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
                             <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Transaction List</h3>
+                                <div class="card-header text-center">
+                                    <h4 class="mb-0">NJC Dental Clinic Feedback Form</h4>
                                 </div>
-                         
                                 <div class="card-body">
+                                    <form action="submit_feedback.php" method="POST">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="feedback" name="feedback" rows="3" placeholder="Your Feedback" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="rating">Rating</label>
+                                            <div class="rating">
+                                                <input type="radio" name="rating" id="star5" value="5">
+                                                <label for="star5"><i class="fas fa-star"></i></label>
+                                                <input type="radio" name="rating" id="star4" value="4">
+                                                <label for="star4"><i class="fas fa-star"></i></label>
+                                                <input type="radio" name="rating" id="star3" value="3">
+                                                <label for="star3"><i class="fas fa-star"></i></label>
+                                                <input type="radio" name="rating" id="star2" value="2">
+                                                <label for="star2"><i class="fas fa-star"></i></label>
+                                                <input type="radio" name="rating" id="star1" value="1">
+                                                <label for="star1"><i class="fas fa-star"></i></label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">Submit Feedback</button>
+                                    </form>
 
                                 </div>
-                           
                             </div>
-                           
-                        </div> -->
-                    <!-- /.col -->
+
+                        </div>
+                    </div>
                 </div>
+
+
+
                 <!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 
-    <?php include 'includes/footer.php'; ?>
+            </section>
+            <!-- /.content -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <?php include 'includes/footer.php'; ?>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
+
+
+
+    <!-- Add a Bootstrap modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Feedback Submitted Successfully</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Thank you for your feedback!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Check if the URL has a success parameter (indicating successful submission)
+        const urlParams = new URLSearchParams(window.location.search);
+        const success = urlParams.get('success');
+
+        // If success parameter is present, show the modal
+        if (success === 'true') {
+            $('#successModal').modal('show');
+
+
+        }
+    </script>
+
 
     <!-- jQuery -->
     <script src="../plugins/jquery/jquery.min.js"></script>
@@ -403,14 +445,16 @@
         });
     </script>
     <script>
-        // JavaScript/jQuery code to handle the "Generate Bill" link click event
         $('.editSchedule').click(function() {
+            // Extract data from the table row
+            var scheduleId = $(this).data('id');
+
             // Extract data from the table row
             var patientName = $(this).closest('tr').find('td:nth-child(2)').text();
             var receiptAmount = '₱' + $(this).closest('tr').find('td:nth-child(6)').text(); // Include peso sign
             var receiptDate = $(this).closest('tr').find('td:nth-child(3)').text();
             var problemData = $(this).closest('tr').find('td:nth-child(5)').text().split(', '); // Assuming problem data is separated by comma
-            var problemData2 = $(this).closest('tr').find('td:nth-child(7)').text().split(', ');
+
             // Update the modal content with the extracted data
             $('#receiptType').text('Dental Services');
             $('#patientName').text(patientName);
@@ -420,23 +464,103 @@
             // Clear any existing problem list items
             $('#problemList').empty();
 
-            // Concatenate both arrays into one
-            var allProblems = problemData.concat(problemData2);
+            // Add each problem as a list item to the problem list
+            problemData.forEach(function(problem) {
+                $('#problemList').append('<li>' + problem + '</li>');
+            });
 
-            // Add each problem as a list item to the problem list if there are values
-            if (allProblems.length > 0) {
-                allProblems.forEach(function(problem) {
-                    $('#problemList').append('<li>' + problem + '</li>');
-                });
-            } else {
-                // If there are no problems, you can show a message or handle it as needed
-                $('#problemList').append('<li>No problems found</li>');
-            }
+            // Update the hidden input field with the schedule ID
+            $('#scheduleId').val(scheduleId);
 
             // Show the modal
             $('#generateBillModal').modal('show');
         });
+
+        // JavaScript/jQuery code to handle the "Generate Bill" button click event
+        $('#generateBillButton').click(function() {
+            // Get the schedule ID value
+            var scheduleId = $('#scheduleId').val();
+
+            // Call the function to print bill receipt and update schedule table
+            printBillReceiptAndUpdateSchedule(scheduleId);
+        });
+
+        // Function to print bill receipt and update schedule table
+        function printBillReceiptAndUpdateSchedule(scheduleId) {
+            // Debug statements to log scheduleId
+            console.log("Schedule ID:", scheduleId);
+
+            // Clone the modal content to remove any events or listeners
+            var modalContent = document.getElementById('generateBillModal');
+            var printContents = modalContent.cloneNode(true);
+
+            // Update the schedule ID value in the printed content
+            var scheduleIdElement = printContents.querySelector('#scheduleId');
+            if (scheduleIdElement) {
+                scheduleIdElement.value = scheduleId;
+            }
+
+            // Remove the buttons and header from the printed content
+            var buttons = printContents.querySelectorAll('.modal-footer');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].parentNode.removeChild(buttons[i]);
+            }
+            var header = printContents.querySelector('.modal-header');
+            if (header) {
+                header.parentNode.removeChild(header);
+            }
+
+            // Print the modified content
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents.innerHTML;
+            window.print();
+
+            // Restore the original content
+            document.body.innerHTML = originalContents;
+
+            // Update the schedule table via AJAX
+            $.ajax({
+                url: 'update_billstatus.php', // PHP script to handle database insertion
+                type: 'POST',
+                data: {
+                    scheduleId: scheduleId,
+                    bill_generate: 'Payment Done'
+                },
+                dataType: 'json', // Expect JSON response
+                success: function(response) {
+                    // Check if the insertion was successful
+                    if (response.success) {
+                        // Display success message using SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        }).then((result) => {
+                            // Reload the page after the success message is closed
+                            location.reload();
+                        });
+                    } else {
+                        // Display error message if insertion failed
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Display error message if AJAX request fails
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while adding problem.',
+                    });
+                    console.error('An error occurred while adding problem:', error);
+                }
+            });
+        }
     </script>
+
 </body>
 
 </html>

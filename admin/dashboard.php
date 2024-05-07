@@ -265,20 +265,19 @@
               </div>
             </div>
 
-            <!-- Small Box (Stat card) for Produce Schedule -->
-            <!--     <div class="col-lg-4 col-md-6"> 
+            <div class="col-lg-4 col-md-6">
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>Produce Schedule</h3>
-                  <p>Schedule appointments</p>
+                  <h3>Feedbacks</h3>
+                  <p>Feedbacks List</p>
                 </div>
                 <div class="icon">
-                  <i class="fas fa-calendar-alt"></i> 
+                  <i class="fas fa-calendar-alt"></i>
                 </div>
-                <a href="produce_schedule.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="feedbacks.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
- -->
+
             <!-- Small Box (Stat card) for Generate Bill -->
             <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
               <div class="small-box bg-warning">

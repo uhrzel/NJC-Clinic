@@ -171,7 +171,14 @@
                                 </p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="feedback.php" class="nav-link">
+                                <i class="nav-icon fas fa-envelope"></i> <!-- Changed Icon for Debt -->
+                                <p>
+                                    Feedbacks
+                                </p>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
