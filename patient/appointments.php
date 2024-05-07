@@ -1,4 +1,5 @@
 <?php include 'includes/count.php'; ?>
+<?php include "config/session.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,9 +82,6 @@
                 <span class="brand-text font-weight-light">NJC - Dental Clinic</span>
             </a>
             <?php
-            // Start the session
-            session_start();
-
             // Include your database connection
             include 'config/conn.php';
 
@@ -159,7 +157,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="appointment.php?patient_id=<?php echo $patient_id; ?>" class="nav-link active">
+                            <a href="appointments.php" class="nav-link active">
                                 <i class="nav-icon fas fa-list-alt"></i> <!-- Changed Icon for Appointment List -->
                                 <p>
                                     Appointment List
@@ -168,7 +166,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="debts.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                            <a href="debts.php" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Debt
@@ -258,9 +256,8 @@
                                             include 'config/conn.php';
 
                                             // Check if the patient ID is set in the URL
-                                            if (isset($_GET['patient_id'])) {
-                                                // Sanitize the patient ID input
-                                                $patientId = mysqli_real_escape_string($conn, $_GET['patient_id']);
+                                            if (isset($_SESSION['patient_id'])) {
+                                                $patientId = $_SESSION['patient_id'];
 
                                                 // SQL query to retrieve data for the specific patient
                                                 $sql = "SELECT 

@@ -1,3 +1,5 @@
+<?php include 'includes/count.php'; ?>
+<?php include "config/session.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,13 +78,10 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index.php" class="brand-link">
-                <img src="njclogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="./dist/img/njclogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">NJC - Dental Clinic</span>
             </a>
             <?php
-            // Start the session
-            session_start();
-
             // Include your database connection
             include 'config/conn.php';
 
@@ -156,7 +155,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="appointments.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                            <a href="appointments.php" class="nav-link">
                                 <i class="nav-icon fas fa-list-alt"></i> <!-- Changed Icon for Appointment List -->
                                 <p>
                                     Appointment List
@@ -165,7 +164,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="debth.php?patient_id=<?php echo $patient_id; ?>" class="nav-link active">
+                            <a href="debts.php" class="nav-link active">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Debt
@@ -204,7 +203,6 @@
             <!-- /.sidebar -->
         </aside>
 
-        <?php include "includes/count.php" ?>
         <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypalClientId; ?>&currency=PHP"></script>
         <!-- Modal for generating bill receipt -->
         <div class="modal fade" id="generateBillModal" tabindex="-1" role="dialog" aria-labelledby="generateBillModalLabel" aria-hidden="true">
@@ -319,15 +317,15 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             <?php
                                             // Include your database connection
                                             include 'config/conn.php';
 
                                             // Check if the patient ID is set in the URL
-                                            if (isset($_GET['patient_id'])) {
-                                                $patientId = mysqli_real_escape_string($conn, $_GET['patient_id']);
+
+                                            if (isset($_SESSION['patient_id'])) {
+                                                $patientId = $_SESSION['patient_id'];
 
                                                 // Fetch data from the schedule table for the specific patient
                                                 $sql = "SELECT * FROM schedule WHERE patient_id = $patientId AND bill_generate = 'prescription unchecked'";
@@ -368,8 +366,9 @@
                                             }
                                             ?>
                                         </tbody>
-
                                     </table>
+
+
                                 </div>
                                 <!-- /.card-body -->
                             </div>

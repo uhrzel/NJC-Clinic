@@ -1,4 +1,5 @@
 <?php include 'includes/count.php'; ?>
+<?php include "config/session.php" ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,8 +83,7 @@
                 <span class="brand-text font-weight-light">NJC - Dental Clinic</span>
             </a>
             <?php
-            // Start the session
-            session_start();
+
 
             // Include your database connection
             include 'config/conn.php';
@@ -152,7 +152,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="schedule.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                            <a href="schedule.php" class="nav-link">
                                 <i class="nav-icon fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
                                 <p>
                                     Schedules
@@ -160,7 +160,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="appointments.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                            <a href="appointments.php" class="nav-link">
                                 <i class="nav-icon fas fa-list-alt"></i> <!-- Changed Icon for Appointment List -->
                                 <p>
                                     Appointment List
@@ -169,7 +169,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="debts.php?patient_id=<?php echo $patient_id; ?>" class="nav-link">
+                            <a href="debts.php>" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Debt
@@ -301,7 +301,7 @@
                                 <div class="icon">
                                     <i class="fas fa-list-alt"></i>
                                 </div>
-                                <a href="appointments.php?patient_id=<?php echo $patient_id; ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="appointments.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- Small Box (Stat card) for Generate Bill -->
@@ -314,7 +314,7 @@
                                 <div class="icon">
                                     <i class="fas fa-file-invoice-dollar"></i> <!-- Icon for Generate Bill -->
                                 </div>
-                                <a href="debts.php?patient_id=<?php echo $patient_id; ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="debts.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
 
