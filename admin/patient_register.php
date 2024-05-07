@@ -214,9 +214,9 @@
                     <label for="editPatientAge">Age:</label>
                     <input type="number" class="form-control" id="editPatientAge" name="editPatientAge" required>
                   </div>
-                  <div class="form-group" id="editfileUploadGroup" style="display: none;">
+                  <div class="form-group" id="editfileUploadGroup">
                     <label for="editfileUpload">Proof of Guidance:</label>
-                    <input type="file" class="form-control-file" id="editfileUpload" name="editfileUpload" required>
+                    <input type="file" class="form-control-file" id="editfileUpload" name="editfileUpload">
                   </div>
 
 

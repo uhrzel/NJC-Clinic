@@ -1,6 +1,7 @@
-<?php include 'config/session.php';?>
+<?php include 'config/session.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,13 +18,15 @@
 
     <style>
         body {
-            background-image: url('dist/img/SCVSBG.jpg'); /* Specify the path to your background image */
+            background-image: url('dist/img/SCVSBG.jpg');
+            /* Specify the path to your background image */
             background-size: cover;
             background-position: center;
         }
     </style>
 
 </head>
+
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
@@ -85,4 +88,5 @@
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.min.js"></script>
 </body>
+
 </html>

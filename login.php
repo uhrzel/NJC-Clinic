@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Patient login successful, create session
                     $_SESSION['patient_id'] = $row['patient_id'];
                     $_SESSION['username'] = $row['firstname'] . ' ' . $row['lastname'];
-                    header('Location: feedback.php'); // Redirect to patient dashboard
+                    header('Location: patient/index.php?patient_id=' . $row['patient_id']);
                     exit();
                 } else {
                     // Invalid password, redirect back to login page
