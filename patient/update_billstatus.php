@@ -12,16 +12,30 @@ if (isset($_POST['scheduleId']) && !empty($_POST['scheduleId']) && isset($_POST[
     $updateSql = "UPDATE schedule SET bill_generate = '$bill' WHERE id = $scheduleId";
 
     if (mysqli_query($conn, $updateSql)) {
-        // If the update was successful, return a success message
-        echo json_encode(array('success' => true, 'message' => 'Payment Done.'));
+        // If the update was successful, return a success message with the URL of the bill receipt page
+        $response = array(
+            'success' => true,
+            'message' => 'Payment Done.',
+            'url' => 'bill_receipt.php?scheduleId=' . $scheduleId // URL of the bill receipt page
+        );
     } else {
         // If there was an error with the update, return an error message
-        echo json_encode(array('success' => false, 'message' => 'Error updating schedule: ' . mysqli_error($conn)));
+        $response = array(
+            'success' => false,
+            'message' => 'Error updating schedule: ' . mysqli_error($conn)
+        );
     }
 } else {
     // If the schedule ID or prescription value is not set or empty, return an error message
-    echo json_encode(array('success' => false, 'message' => 'Invalid schedule ID or payment value.'));
+    $response = array(
+        'success' => false,
+        'message' => 'Invalid schedule ID or payment value.'
+    );
 }
+
+// Output JSON response
+header('Content-Type: application/json');
+echo json_encode($response);
 
 // Close the database connection
 mysqli_close($conn);

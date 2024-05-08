@@ -45,86 +45,6 @@
             background-color: transparent;
             padding: 20px;
         }
-
-        .rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-        }
-
-        .rating>input {
-            display: none;
-        }
-
-        .rating>label {
-            padding: 5px;
-            font-size: 30px;
-            color: #ddd;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .rating>input:checked~label,
-        .rating>input:checked~label~label {
-            color: #f8d053;
-        }
-
-        body {
-            background-image: url('dist/img/care.jpg');
-            /* Specify the path to your background image */
-            background-size: cover;
-            /* Cover the entire viewport */
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.9);
-            /* Transparent white background */
-            border: none;
-            /* No border */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            /* Soft shadow */
-            border-radius: 15px;
-            /* Rounded corners */
-        }
-
-        .card-header {
-            background-color: lightblue;
-            /* Yellow background */
-            border-bottom: none;
-            /* No border at the bottom */
-            border-radius: 15px 15px 0 0;
-            /* Rounded corners only at the top */
-            font-weight: bold;
-            color: #333;
-            /* Dark text color */
-        }
-
-        .form-control {
-            border: none;
-            /* No border for form controls */
-            border-radius: 10px;
-            /* Rounded corners */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Soft shadow */
-        }
-
-        .btn-primary {
-
-            /* Yellow background */
-            border: none;
-            /* No border */
-            border-radius: 10px;
-            /* Rounded corners */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Soft shadow */
-        }
-
-        .btn-primary:hover {
-            background-color: lightskyblue;
-            /* Lighter yellow on hover */
-        }
     </style>
 </head>
 
@@ -244,7 +164,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="debts.php" class="nav-link ">
+                            <a href="debts.php" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Debt
@@ -252,7 +172,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="bill_receipt.php" class="nav-link">
+                            <a href="bill_receipt.php" class="nav-link active">
                                 <i class="nav-icon fas fa-receipt"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Receipts
@@ -260,7 +180,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="feedback.php" class="nav-link active">
+                            <a href="feedback.php" class="nav-link">
                                 <i class="nav-icon fas fa-envelope"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Feedbacks
@@ -298,7 +218,75 @@
             <!-- /.sidebar -->
         </aside>
 
+        <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypalClientId; ?>&currency=PHP"></script>
+        <!-- Modal for generating bill receipt -->
+        <div class="modal fade" id="generateBillModal" tabindex="-1" role="dialog" aria-labelledby="generateBillModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="generateBillModalLabel">Checkout with Receipt</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 style="text-align: center; font-size: 1.25rem;">NJC - Dental Clinic <span id="receiptType"></span> Checkout</h5>
+                        <p><strong>Patient Name:</strong> <span id="patientName"></span></p>
+                        <ul id="problemList"></ul>
+                        <p><strong>Total Amount Paid:</strong> <span id="receiptAmount"></span></p>
+                        <p><strong>Payment Date:</strong> <span id="receiptDate"></span></p>
+                        <div id="paypal-button-container"></div>
+                        <input type="hidden" id="paypal-order-id" name="paypal-order-id">
+                        <input type="hidden" id="scheduleId" name="scheduleId">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="generateBillButton"> <i class="nav-icon fas fa-done"></i> done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="modal fade" id="paymentSuccessModal" tabindex="-1" role="dialog" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentSuccessModalLabel">Payment Success</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Transaction completed successfully.</p>
+                        <p>Thank you for your payment!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Render PayPal button
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    // Set up the transaction details
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: $('#receiptAmount').text().replace('₱', '')
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        // Show modal on successful payment
+                        $('#paymentSuccessModal').modal('show');
+                    });
+                }
+            }).render('#paypal-button-container');
+        </script>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -308,12 +296,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Feedbacks </h1>
+                            <h1>Checkout </h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Feedbacks </li>
+                                <li class="breadcrumb-item active">Checkout </li>
                             </ol>
                         </div>
                     </div>
@@ -322,50 +310,90 @@
 
 
             <section class="content">
-                <div class="container mt-5">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
+                <div class="container-fluid">
+                    <!-- Schedule Table -->
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="card">
-                                <div class="card-header text-center">
-                                    <h4 class="mb-0">NJC Dental Clinic Feedback Form</h4>
+                                <div class="card-header">
+                                    <h3 class="card-title">Checkout List</h3>
                                 </div>
+                                <!-- /.card-header -->
                                 <div class="card-body">
-                                    <form action="submit_feedback.php" method="POST">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea class="form-control" id="feedback" name="feedback" rows="3" placeholder="Your Feedback" required></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="rating">Rating</label>
-                                            <div class="rating">
-                                                <input type="radio" name="rating" id="star5" value="5">
-                                                <label for="star5"><i class="fas fa-star"></i></label>
-                                                <input type="radio" name="rating" id="star4" value="4">
-                                                <label for="star4"><i class="fas fa-star"></i></label>
-                                                <input type="radio" name="rating" id="star3" value="3">
-                                                <label for="star3"><i class="fas fa-star"></i></label>
-                                                <input type="radio" name="rating" id="star2" value="2">
-                                                <label for="star2"><i class="fas fa-star"></i></label>
-                                                <input type="radio" name="rating" id="star1" value="1">
-                                                <label for="star1"><i class="fas fa-star"></i></label>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-block">Submit Feedback</button>
-                                    </form>
+                                    <table id="scheduleTable" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Patient Name</th>
+                                                <th>Schedule Date</th>
+                                                <th>Time</th>
+                                                <th>Problem</th>
+                                                <th>Payment</th>
+                                                <th>Status</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+
+                                            // Include your database connection
+                                            include 'config/conn.php';
+
+                                            // Check if patient ID is set in the session
+                                            if (isset($_SESSION['patient_id'])) {
+                                                // Retrieve patient ID from session
+                                                $patientId = $_SESSION['patient_id'];
+
+                                                // Fetch schedule data for the patient from the database
+                                                $sql = "SELECT patient.firstname, patient.lastname, schedule.date, schedule.time, schedule.problem, schedule.bill_generate, schedule.payment 
+        FROM schedule 
+        INNER JOIN patient ON schedule.patient_id = patient.patient_id
+        WHERE schedule.patient_id = $patientId
+        AND (schedule.bill_generate = 'Payment Done' OR schedule.bill_generate = 'Done' OR schedule.bill_generate = 'Prescription Checked')";
+
+                                                $result = mysqli_query($conn, $sql);
+
+                                                // Check if there are any rows returned
+                                                if (mysqli_num_rows($result) > 0) {
+                                                    // Loop through each row and display data in table rows
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                        // Determine the status based on bill_generate value
+                                                        $status = ($row['bill_generate'] == 'Payment Done') ? 'Paid' : 'Done Transaction';
+
+                                                        echo "<tr>";
+                                                        echo "<td>" . $row['firstname'] . " " . $row['lastname'] . "</td>";
+                                                        echo "<td>" . $row['date'] . "</td>";
+                                                        echo "<td>" . $row['time'] . "</td>";
+                                                        echo "<td>" . $row['problem'] . "</td>";
+                                                        echo "<td>" . $row['payment'] . "</td>";
+                                                        echo "<td>" . $status . "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                } else {
+                                                    // If no rows returned, display a message
+                                                    echo "<tr><td colspan='6'>No schedule data found for this patient</td></tr>";
+                                                }
+                                            } else {
+                                                // If patient ID is not set in the session, display an error message
+                                                echo "<tr><td colspan='6'>Patient ID not found in session</td></tr>";
+                                            }
+                                            ?>
+
+
+
+                                        </tbody>
+                                    </table>
+
 
                                 </div>
+                                <!-- /.card-body -->
                             </div>
-
+                            <!-- /.card -->
                         </div>
+                        <!-- /.col -->
                     </div>
-                </div>
-
-
-
-                <!-- /.row -->
-
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->
 
@@ -381,45 +409,6 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
-
-
-    <!-- Add a Bootstrap modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Feedback Submitted Successfully</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Thank you for your feedback!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // Check if the URL has a success parameter (indicating successful submission)
-        const urlParams = new URLSearchParams(window.location.search);
-        const success = urlParams.get('success');
-
-        // If success parameter is present, show the modal
-        if (success === 'true') {
-            $('#successModal').modal('show');
-
-
-        }
-    </script>
-
 
     <!-- jQuery -->
     <script src="../plugins/jquery/jquery.min.js"></script>
@@ -544,6 +533,8 @@
                             title: 'Success',
                             text: response.message,
                         }).then((result) => {
+                            window.location.href = 'bill_receipt.php?scheduleId=' + scheduleId;
+
                             // Reload the page after the success message is closed
                             location.reload();
                         });

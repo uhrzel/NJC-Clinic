@@ -172,6 +172,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="bill_receipt.php" class="nav-link">
+                                <i class="nav-icon fas fa-receipt"></i> <!-- Changed Icon for Debt -->
+                                <p>
+                                    Receipts
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="feedback.php" class="nav-link">
                                 <i class="nav-icon fas fa-envelope"></i> <!-- Changed Icon for Debt -->
                                 <p>
@@ -365,7 +373,7 @@
                                                     }
                                                 } else {
                                                     // If no rows returned, display a message
-                                                    echo "<tr><td colspan='7'>No Transactions found for this patient</td></tr>";
+                                                    echo "<tr><td colspan='7'>No Debts found for this patient</td></tr>";
                                                 }
                                             } else {
                                                 // If patient ID is not set, display a message
@@ -524,6 +532,8 @@
                             title: 'Success',
                             text: response.message,
                         }).then((result) => {
+                            window.location.href = 'bill_receipt.php?scheduleId=' + scheduleId;
+
                             // Reload the page after the success message is closed
                             location.reload();
                         });
