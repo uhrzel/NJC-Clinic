@@ -1,6 +1,5 @@
 <?php include 'includes/count.php'; ?>
 <?php include "config/session.php" ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +29,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: url(./dist/img/office.jpg);
+            background-image: url(../admin/office.jpg);
             background-size: cover;
             background-position: center;
             filter: blur(2.5px);
@@ -79,12 +78,10 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index.php" class="brand-link">
-                <img src="./dist/img/njclogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="../dist/img/care.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">NJC - Dental Clinic</span>
             </a>
             <?php
-
-
             // Include your database connection
             include 'config/conn.php';
 
@@ -121,10 +118,8 @@
                 echo 'Patient ID not set';
             }
             ?>
-
             <!-- Sidebar -->
             <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
 
                 <!-- SidebarSearch Form -->
                 <div class="form-inline">
@@ -143,7 +138,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="index.php" class="nav-link active">
+                            <a href="index.php" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>
                                     Dashboard
@@ -168,7 +163,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="treatment.php" class="nav-link ">
+                            <a href="treatment.php" class="nav-link active">
                                 <i class="nav-icon fas fa-notes-medical"></i> <!-- Changed Icon for Treatment History -->
                                 <p>
                                     Treatment History
@@ -185,7 +180,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="bill_receipt.php" class="nav-link">
+                            <a href="bill_receipt.php" class="nav-link ">
                                 <i class="nav-icon fas fa-receipt"></i> <!-- Changed Icon for Debt -->
                                 <p>
                                     Receipts
@@ -200,7 +195,6 @@
                                 </p>
                             </a>
                         </li>
-
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -217,8 +211,8 @@
                                         <p>Logout</p>
                                     </a>
                                 </li>
-                                <!--  <li class="nav-item">
-                                    <a href="change_password.php" class="nav-link">
+                                <!-- <li class="nav-item">
+                                    <a href="change_password.php" class="nav-link active">
                                         <i class="nav-icon fas fa-key"></i>
                                         <p>Change Password</p>
                                     </a>
@@ -231,53 +225,77 @@
             </div>
             <!-- /.sidebar -->
         </aside>
+
+        <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $paypalClientId; ?>&currency=PHP"></script>
+        <!-- Modal for generating bill receipt -->
         <div class="modal fade" id="generateBillModal" tabindex="-1" role="dialog" aria-labelledby="generateBillModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="generateBillModalLabel">Generate Bill Receipt</h5>
+                        <h5 class="modal-title" id="generateBillModalLabel">Checkout with Receipt</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Content for generating the professional receipt -->
-                        <h4 style="text-align: center;">NJC - Dental Clinic <span id="receiptType"></span> Receipt</h4>
-                        <hr>
-                        <p>Issued to:</p>
+                        <h5 style="text-align: center; font-size: 1.25rem;">NJC - Dental Clinic <span id="receiptType"></span> Checkout</h5>
                         <p><strong>Patient Name:</strong> <span id="patientName"></span></p>
-                        <p>Services Rendered:</p>
-                        <ul id="problemList">
-                            <!-- List items will be dynamically added here -->
-                        </ul>
-                        <hr>
-                        <p><strong>Total Amount Paid:</strong><span id="receiptAmount"></span></p>
+                        <ul id="problemList"></ul>
+                        <p><strong>Total Amount Paid:</strong> <span id="receiptAmount"></span></p>
                         <p><strong>Payment Date:</strong> <span id="receiptDate"></span></p>
-                        <hr>
-                        <p>Thank you for choosing NJC Dental Clinic. We look forward to serving you again.</p>
+                        <div id="paypal-button-container"></div>
+                        <input type="hidden" id="paypal-order-id" name="paypal-order-id">
+                        <input type="hidden" id="scheduleId" name="scheduleId">
                     </div>
                     <div class="modal-footer">
-                        <!-- Button to close the modal -->
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <!-- Button to submit or generate the bill receipt -->
+                        <button type="button" class="btn btn-primary" id="generateBillButton"> <i class="nav-icon fas fa-done"></i> done</button>
                     </div>
                 </div>
             </div>
         </div>
-        <style>
-            #problemList {
-                list-style-type: none;
-                /* Remove bullet points */
-                padding: 0;
-                /* Remove default padding */
-            }
 
-            #problemList li {
-                margin-bottom: 5px;
-                margin-left: 50px;
-                /* Optional: Add some spacing between list items */
-            }
-        </style>
+        <div class="modal fade" id="paymentSuccessModal" tabindex="-1" role="dialog" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentSuccessModalLabel">Payment Success</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Transaction completed successfully.</p>
+                        <p>Thank you for your payment!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Render PayPal button
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    // Set up the transaction details
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: $('#receiptAmount').text().replace('₱', '')
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        // Show modal on successful payment
+                        $('#paymentSuccessModal').modal('show');
+                    });
+                }
+            }).render('#paypal-button-container');
+        </script>
+
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -286,104 +304,123 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Dashboard</h1>
+                            <h1>Treament History </h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item active">History of Treatments </li>
                             </ol>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
 
-            <!-- Main content -->
+
             <section class="content">
                 <div class="container-fluid">
-                    <div class="row"> <!-- Center the row horizontally -->
-                        <!-- Small Box (Stat card) for Patient's Register -->
-
-                        <!-- Small Box (Stat card) for Produce Schedule -->
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>Produce Schedule</h3>
-                                    <p>Schedule appointments</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
-                                </div>
-                                <a href="schedule.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>Appointments</h3>
-                                    <p>Appointment List </p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-list-alt"></i>
-                                </div>
-                                <a href="appointments.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- Small Box (Stat card) for Generate Bill -->
-                        <div class="col-lg-4 col-md-6"> <!-- Adjust column size for responsiveness -->
-                            <div class="small-box bg-warning">
-                                <div class="inner">
-                                    <h3>Debt Bill</h3>
-                                    <p>Debt Bill information</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-file-invoice-dollar"></i> <!-- Icon for Generate Bill -->
-                                </div>
-                                <a href="debts.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- /.row -->
-        </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <!-- Schedule Table -->
-                <div class="row">
-                    <!--    <div class="col-md-12">
+                    <!-- Schedule Table -->
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Transaction List</h3>
+                                    <h3 class="card-title">Treatment History List</h3>
                                 </div>
-                         
+                                <!-- /.card-header -->
                                 <div class="card-body">
+                                    <table id="scheduleTable" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Patient Name</th>
+                                                <th>Updated Date</th>
+                                                <th>Updated Time</th>
+
+                                                <th>Age</th>
+                                                <th>Gender</th>
+                                                <th>Height</th>
+                                                <th>Weight</th>
+                                                <th>Province</th>
+                                                <th>City</th>
+                                                <th>Problem</th>
+                                                <th>Other Problem</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // Include your database connection
+                                            include 'config/conn.php';
+
+                                            // Check if patient ID is set in the session
+                                            if (isset($_SESSION['patient_id'])) {
+                                                // Retrieve patient ID from session
+                                                $patientId = $_SESSION['patient_id'];
+
+                                                // Fetch treatment history data for the patient from the database
+                                                $sql = "SELECT patient.firstname, patient.lastname, patient.age, patient.gender, patient.height, patient.weight, patient.province, patient.city, schedule.updated_at AS schedule_date, schedule.time, schedule.problem, schedule.other_problem 
+                    FROM schedule 
+                    INNER JOIN patient ON schedule.patient_id = patient.patient_id
+                    WHERE schedule.patient_id = $patientId";
+                                                $result = mysqli_query($conn, $sql);
+
+                                                // Check if there are any rows returned
+                                                if (mysqli_num_rows($result) > 0) {
+                                                    // Loop through each row and display data in table rows
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                        // Format schedule date
+                                                        $scheduleDate = date("F j, Y", strtotime($row['schedule_date']));
+                                                        // Format schedule time
+                                                        $scheduleTime = date("g:i A", strtotime($row['schedule_date']));
+
+                                                        echo "<tr>";
+                                                        echo "<td>" . $row['firstname'] . " " . $row['lastname'] . "</td>";
+                                                        echo "<td>" . $scheduleDate . "</td>";
+                                                        echo "<td>" . $scheduleTime . "</td>";
+
+                                                        echo "<td>" . $row['age'] . "</td>";
+                                                        echo "<td>" . $row['gender'] . "</td>";
+                                                        echo "<td>" . $row['height'] . "</td>";
+                                                        echo "<td>" . $row['weight'] . "</td>";
+                                                        echo "<td>" . $row['province'] . "</td>";
+                                                        echo "<td>" . $row['city'] . "</td>";
+                                                        echo "<td>" . $row['problem'] . "</td>";
+                                                        echo "<td>" . $row['other_problem'] . "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                } else {
+                                                    // If no rows returned, display a message
+                                                    echo "<tr><td colspan='11'>No treatment history found for this patient</td></tr>";
+                                                }
+                                            } else {
+                                                // If patient ID is not set in the session, display an error message
+                                                echo "<tr><td colspan='11'>Patient ID not found in session</td></tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+
 
                                 </div>
-                           
+                                <!-- /.card-body -->
                             </div>
-                           
-                        </div> -->
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
 
-    <?php include 'includes/footer.php'; ?>
+        </div>
+        <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <?php include 'includes/footer.php'; ?>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 
@@ -419,14 +456,16 @@
         });
     </script>
     <script>
-        // JavaScript/jQuery code to handle the "Generate Bill" link click event
         $('.editSchedule').click(function() {
+            // Extract data from the table row
+            var scheduleId = $(this).data('id');
+
             // Extract data from the table row
             var patientName = $(this).closest('tr').find('td:nth-child(2)').text();
             var receiptAmount = '₱' + $(this).closest('tr').find('td:nth-child(6)').text(); // Include peso sign
             var receiptDate = $(this).closest('tr').find('td:nth-child(3)').text();
             var problemData = $(this).closest('tr').find('td:nth-child(5)').text().split(', '); // Assuming problem data is separated by comma
-            var problemData2 = $(this).closest('tr').find('td:nth-child(7)').text().split(', ');
+
             // Update the modal content with the extracted data
             $('#receiptType').text('Dental Services');
             $('#patientName').text(patientName);
@@ -436,23 +475,105 @@
             // Clear any existing problem list items
             $('#problemList').empty();
 
-            // Concatenate both arrays into one
-            var allProblems = problemData.concat(problemData2);
+            // Add each problem as a list item to the problem list
+            problemData.forEach(function(problem) {
+                $('#problemList').append('<li>' + problem + '</li>');
+            });
 
-            // Add each problem as a list item to the problem list if there are values
-            if (allProblems.length > 0) {
-                allProblems.forEach(function(problem) {
-                    $('#problemList').append('<li>' + problem + '</li>');
-                });
-            } else {
-                // If there are no problems, you can show a message or handle it as needed
-                $('#problemList').append('<li>No problems found</li>');
-            }
+            // Update the hidden input field with the schedule ID
+            $('#scheduleId').val(scheduleId);
 
             // Show the modal
             $('#generateBillModal').modal('show');
         });
+
+        // JavaScript/jQuery code to handle the "Generate Bill" button click event
+        $('#generateBillButton').click(function() {
+            // Get the schedule ID value
+            var scheduleId = $('#scheduleId').val();
+
+            // Call the function to print bill receipt and update schedule table
+            printBillReceiptAndUpdateSchedule(scheduleId);
+        });
+
+        // Function to print bill receipt and update schedule table
+        function printBillReceiptAndUpdateSchedule(scheduleId) {
+            // Debug statements to log scheduleId
+            console.log("Schedule ID:", scheduleId);
+
+            // Clone the modal content to remove any events or listeners
+            var modalContent = document.getElementById('generateBillModal');
+            var printContents = modalContent.cloneNode(true);
+
+            // Update the schedule ID value in the printed content
+            var scheduleIdElement = printContents.querySelector('#scheduleId');
+            if (scheduleIdElement) {
+                scheduleIdElement.value = scheduleId;
+            }
+
+            // Remove the buttons and header from the printed content
+            var buttons = printContents.querySelectorAll('.modal-footer');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].parentNode.removeChild(buttons[i]);
+            }
+            var header = printContents.querySelector('.modal-header');
+            if (header) {
+                header.parentNode.removeChild(header);
+            }
+
+            // Print the modified content
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents.innerHTML;
+            window.print();
+
+            // Restore the original content
+            document.body.innerHTML = originalContents;
+
+            // Update the schedule table via AJAX
+            $.ajax({
+                url: 'update_billstatus.php', // PHP script to handle database insertion
+                type: 'POST',
+                data: {
+                    scheduleId: scheduleId,
+                    bill_generate: 'Payment Done'
+                },
+                dataType: 'json', // Expect JSON response
+                success: function(response) {
+                    // Check if the insertion was successful
+                    if (response.success) {
+                        // Display success message using SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        }).then((result) => {
+                            window.location.href = 'bill_receipt.php?scheduleId=' + scheduleId;
+
+                            // Reload the page after the success message is closed
+                            location.reload();
+                        });
+                    } else {
+                        // Display error message if insertion failed
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Display error message if AJAX request fails
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while adding problem.',
+                    });
+                    console.error('An error occurred while adding problem:', error);
+                }
+            });
+        }
     </script>
+
 </body>
 
 </html>

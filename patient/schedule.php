@@ -166,7 +166,14 @@
                                 </p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="treatment.php" class="nav-link ">
+                                <i class="nav-icon fas fa-notes-medical"></i> <!-- Changed Icon for Treatment History -->
+                                <p>
+                                    Treatment History
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="debts.php" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
@@ -259,8 +266,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="editPatientProblem">Problem:</label>
-                                <select class="form-control" id="editPatientProblem" name="editPatientProblem" required>
+                                <label for="editPatientProblem">Select Problem:</label>
+                                <select class="form-control" id="editPatientProblem" name="editPatientProblem" onchange="setPayment()" required>
                                     <option value="">Select Problem</option>
                                     <option value="Teeth Cleaning">Teeth Cleaning</option>
                                     <option value="Whitening">Whitening</option>
@@ -272,11 +279,11 @@
                                     <option value="Brace/Invisalign">Brace/Invisalign</option>
                                 </select>
                             </div>
+
                             <div class="form-group">
                                 <label for="editPatientPayment">Enter Payment:</label>
                                 <input type="text" class="form-control" id="editPatientPayment" name="editPatientPayment" required>
                             </div>
-
 
                             <button type="submit" class="btn btn-primary" name="submit">Schedule Appointment</button>
                         </form>
@@ -284,6 +291,46 @@
                 </div>
             </div>
         </div>
+        <script>
+            // Function to set payment based on selected problem
+            function setPayment() {
+                // Get the selected problem from the dropdown
+                var problem = document.getElementById("editPatientProblem").value;
+                var paymentInput = document.getElementById("editPatientPayment");
+
+                // Set the payment based on the selected problem
+                switch (problem) {
+                    case "Teeth Cleaning":
+                        paymentInput.value = "200";
+                        break;
+                    case "Whitening":
+                        paymentInput.value = "300";
+                        break;
+                    case "Extractions":
+                        paymentInput.value = "400";
+                        break;
+                    case "Veneers":
+                        paymentInput.value = "500";
+                        break;
+                    case "Filling":
+                        paymentInput.value = "600";
+                        break;
+                    case "Crowns":
+                        paymentInput.value = "700";
+                        break;
+                    case "Root Canal":
+                        paymentInput.value = "800";
+                        break;
+                    case "Brace/Invisalign":
+                        paymentInput.value = "1000";
+                        break;
+                    default:
+                        // If problem not found, set payment to empty
+                        paymentInput.value = "";
+                        break;
+                }
+            }
+        </script>
 
 
         <!-- Content Wrapper. Contains page content -->

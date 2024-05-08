@@ -118,6 +118,22 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="schedule.php" class="nav-link">
+                <i class="nav-icon fas fa-calendar"></i>
+                <p>
+                  Patient Schedules
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="treatment.php" class="nav-link">
+                <i class="nav-icon fas fa-notes-medical"></i> <!-- Changed Icon for Treatment History -->
+                <p>
+                  Treatment History
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="patient_register.php" class="nav-link">
                 <i class="nav-icon fas fa-clipboard-list"></i> <!-- Icon for Patient's Register -->
                 <p>

@@ -78,7 +78,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index.php" class="brand-link">
-                <img src="./dist/img/njclogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="../dist/img/care.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">NJC - Dental Clinic</span>
             </a>
             <?php
@@ -162,7 +162,14 @@
                                 </p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="treatment.php" class="nav-link ">
+                                <i class="nav-icon fas fa-notes-medical"></i> <!-- Changed Icon for Treatment History -->
+                                <p>
+                                    Treatment History
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="debts.php" class="nav-link active">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
