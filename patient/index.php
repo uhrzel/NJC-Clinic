@@ -172,7 +172,7 @@
                             <a href="debts.php" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
                                 <p>
-                                    Debt
+                                    Debts
                                 </p>
                             </a>
                         </li>

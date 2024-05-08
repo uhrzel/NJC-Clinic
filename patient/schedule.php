@@ -154,7 +154,7 @@
                             <a href="schedule.php" class="nav-link active">
                                 <i class="nav-icon fas fa-calendar-alt"></i> <!-- Icon for Produce Schedule -->
                                 <p>
-                                    Schedule
+                                    Schedules
                                 </p>
                             </a>
                         </li>
@@ -171,7 +171,7 @@
                             <a href="debts.php" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-alt"></i> <!-- Changed Icon for Debt -->
                                 <p>
-                                    Debt
+                                    Debts
                                 </p>
                             </a>
                         </li>
