@@ -174,6 +174,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="bill_receipt.php" class="nav-link">
+                                <i class="nav-icon fas fa-receipt"></i> <!-- Changed Icon for Debt -->
+                                <p>
+                                    Receipts
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="feedback.php" class="nav-link">
                                 <i class="nav-icon fas fa-envelope"></i> <!-- Changed Icon for Debt -->
                                 <p>
